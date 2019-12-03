@@ -1,0 +1,56 @@
+apiVersion: v1
+entries:
+  aleth-lite-explorer:
+  - apiVersion: v2
+    appVersion: v1.0.0-beta.8
+    created: "2019-12-03T13:45:46.55168366+01:00"
+    description: Alethio's Light Weight Open Source Ethereum Explorer
+    digest: e4c8c036c1d7299553a6a2483af71bb088b8e8da74e8ad59080016e10728be73
+    name: aleth-lite-explorer
+    type: application
+    urls:
+    - aleth-lite-explorer-1.0.0.tgz
+    version: 1.0.0
+  besu:
+  - apiVersion: v2
+    appVersion: 1.3.5
+    created: "2019-12-03T13:45:46.552354533+01:00"
+    description: An enterprise-grade Java-based, Apache 2.0 licensed Ethereum client
+    digest: c3ff6a51598299de1d7673417cc960fd421e2ee0f76f3037d0afe2192f51c6df
+    name: besu
+    type: application
+    urls:
+    - besu-1.0.0.tgz
+    version: 1.0.0
+  ethstats:
+  - apiVersion: v2
+    appVersion: v1.5.2
+    created: "2019-12-03T13:45:46.556386711+01:00"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: '@stable'
+      version: 9.3.0
+    - condition: deepstream.enabled
+      name: deepstream
+      repository: ""
+      version: 0.1.2
+    description: Ethstats dashboard (see https://ethstats.io)
+    digest: abdbbc18662d933733a67031c52a884761fceb61df74a5fe243fb3fd5d6eea18
+    name: ethstats
+    type: application
+    urls:
+    - ethstats-1.0.0.tgz
+    version: 1.0.0
+  ethstats-network-server:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2019-12-02T20:23:50.243863656+01:00"
+    description: A Helm chart for Kubernetes
+    digest: aaa231f6566c16fda8a5ba5a8a4ac3f04a58c68035bd10a24ad8c6632c4c95cd
+    name: ethstats-network-server
+    type: application
+    urls:
+    - ethstats-network-server-0.1.0.tgz
+    version: 0.1.0
+generated: "2019-12-03T13:45:46.551119682+01:00"

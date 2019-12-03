@@ -1,0 +1,9 @@
+dependencies:
+- name: redis
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 9.3.0
+- name: deepstream
+  repository: ""
+  version: 0.1.2
+digest: sha256:477e04d1ec943c31f0a17635b6fc8aa959947b838baba7779e111686f9c5d0b5
+generated: "2019-12-03T13:45:44.79554408+01:00"

@@ -1,0 +1,355 @@
+# Default values for besu.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+## Number of replicas to run
+##
+replicaCount: 1
+
+## Image configuration for Besu
+##
+image:
+  repository: hyperledger/besu
+  pullPolicy: IfNotPresent
+
+## Reference to one or more secrets to be used when pulling images
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+##
+imagePullSecrets: []
+
+## Provide a name in place of besu for `app:` labels
+##
+nameOverride: ""
+
+## Generic behavior for pulling images from Docker registry
+##
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  ## Service type
+  ##
+  type: ClusterIP
+
+  ## If service type = "NodePort" and RPC HTTP is enabled, use this port
+  ##
+  rpcHttpNodePort: 30545
+
+  ## If service type = "NodePort" and RPC WS is enabled, use this port
+  ##
+  rpcWsNodePort: 30546
+
+  ## If service type = "NodePort" and RPC GraphQL is enabled, use this port
+  ##
+  graphqlNodePort: 30547
+
+  ## If service type = "NodePort" and RPC Metrics is enabled, use this port
+  ##
+  metricsNodePort: 30548
+
+ingress:
+  ## Enables or disables ingress for this Chart
+  ##
+  enabled: false
+
+  ## Add annotations as required for your Ingress controller.
+  ##
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+
+  ## Hosts must be provided if Ingress is enabled.
+  ##
+  hosts:
+    - host: chart-example.local
+      paths: []
+
+  ## TLS configuration for Besu Ingress
+  ## Secret must be manually created in the namespace
+  ##
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+persistence:
+  ## Enables or disables the possibility of using more advanced types of persistence
+  ##
+  enabled: true
+
+  ## If you want to reuse an existing claim, you can pass directly the name of the PVC using the existingClaim variable
+  ##
+  # existingClaim: your-claim
+
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is set,
+  ## choosing the default provisioner. (gp2 on AWS, standard on GKE, AWS & OpenStack)
+  ##
+  storageClass: ""
+
+  ## Volume will be mounted as read-write by a single node (recommended option)
+  ##
+  accessMode: ReadWriteOnce
+
+  ## Depending on the network you select on Besu and as well the sync mode option,
+  ## provisioned size may vary.
+  ##
+  ## For the following settings, these amounts should be safe to use (double check always before proceeding):
+  ##   - Network: Mainnet | Sync: Full -> 5000Gi
+  ##   - Network: Mainnet | Sync: Fast -> 300Gi
+  ##   - Network: Ropsten | Sync: Full -> 1000Gi
+  ##   - Network: Ropsten | Sync: Fast -> 200Gi
+  ##
+  size: 5000Gi
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+## Besu configuration directives
+## ref: https://besu.hyperledger.org/en/latest/Reference/CLI/CLI-Syntax/#options
+##
+config:
+  ## List of node IDs with which this node will not peer. The node ID is the public key of the node. You can specify the banned node IDs with or without the 0x prefix.
+  ##
+  bannedNodeIds: []
+
+  ## List of comma-separated enode URLs for P2P discovery bootstrap.
+  ## When connecting to MainNet or public testnets, the default is a predefined list of enode URLs.
+  ## In private networks defined using --genesis-file or when using --network=dev, the default is an empty list of bootnodes.
+  ##
+  bootnodes: []
+
+  ## The path to the TOML configuration file. The default is none.
+  ## NOTE: If a PATH is specified, remaining configuration options will be ignored.
+  ##
+  configPath: "/opt/besu/config/config.toml"
+
+  ## The path to the Besu data directory. The default is the directory in which Besu is installed or /opt/besu/database if using the Besu Docker image.
+  ##
+  dataPath: "/opt/besu/database"
+
+  ## Enables or disables P2P peer discovery. The default is true.
+  ##
+  discoveryEnabled: true
+
+  ## Comma separated origin domain URLs for CORS validation. The default is none.
+  ##
+  graphqlHttpCorsOrigins: ["NONE"]
+
+  ## Set to true to enable the GraphQL HTTP service. The default is false.
+  ##
+  graphqlHttpEnabled: false
+
+  ## Host for GraphQL HTTP to listen on.
+  ## To allow remote connections, set to 0.0.0.0
+  ##
+  graphqlHttpHost: "0.0.0.0"
+
+  ## Specifies GraphQL HTTP listening port (TCP). The default is 8547. Ports must be exposed appropriately.
+  ##
+  graphqlHttpPort: 8547
+
+  ## Comma-separated list of hostnames to allow access to the JSON-RPC API. By default, access from localhost and 127.0.0.1 is accepted.
+  ##
+  hostWhitelist: ["127.0.0.1"]
+
+  ## Specifies the maximum P2P connections that can be established. The default is 25.
+  ##
+  maxPeers: 25
+
+  ## Comma separated list of categories for which to track metrics.
+  ## The default is all categories: BLOCKCHAIN, EXECUTORS, JVM, NETWORK, PEERS, PROCESS, RPC, SYNCHRONIZER.
+  ##
+  metricsCategory:
+    - BLOCKCHAIN
+    - EXECUTORS
+    - JVM
+    - NETWORK
+    - PEERS
+    - PROCESS
+    - RPC
+    - SYNCHRONIZER
+
+  ## Set to true to enable the metrics exporter. The default is false.
+  ##
+  metricsEnabled: false
+
+  ## Specifies the host on which Prometheus accesses Besu metrics. The metrics server respects the --host-whitelist option.
+  ##
+  metricsHost: "0.0.0.0"
+
+  ## Specifies the port (TCP) on which Prometheus accesses Besu metrics. The default is 9545. Ports must be exposed appropriately.
+  ##
+  metricsPort: 9545
+
+  ## Set to true to start the push gateway integration.
+  ## --metrics-push-enabled cannot be specified with --metrics-enabled. That is, either Prometheus polling or Prometheus push gateway support can be enabled but not both at once.
+  ##
+  metricsPushEnabled: false
+
+  ## Host of the Prometheus Push Gateway. The default is 127.0.0.1. The metrics server respects the --host-whitelist option.
+  ##
+  metricsPushHost: "127.0.0.1"
+
+  ## Interval in seconds to push metrics when in push mode. The default is 15
+  ##
+  metricsPushInterval: 15
+
+  ## Port (TCP) of the Prometheus Push Gateway. The default is 9001. Ports must be exposed appropriately.
+  ##
+  metricsPushPort: 9001
+
+  ## Job name when in push mode. The default is besu-client.
+  ##
+  metricsPushPrometheusJob: "besu-client"
+
+  ## Account to which mining rewards are paid. You must specify a valid coinbase when you enable mining using the --miner-enabled option or the miner_start JSON RPC-API method.
+  ##
+  ## NOTE: This option is ignored in networks using Clique and IBFT 2.0 consensus protocols.
+  ##
+  minerCoinbase: ""
+
+  ## Enables mining when the node is started. Default is false.
+  ##
+  minerEnabled: false
+
+  ## A hex string representing the 32 bytes to be included in the extra data field of a mined block. The default is 0x.
+  ##
+  minerExtraData: "0x"
+
+  ## The minimum price that a transaction offers for it to be included in a mined block. The default is 1000.
+  ##
+  minGasPrice: 1000
+
+  ## Specify the method for handling NAT environments. Options are: UPNP and NONE. The default is NONE, which disables NAT functionality.
+  ##
+  ## TIP: UPnP support is often disabled by default in networking firmware. If disabled by default, explicitly enable UPnP support
+  ##
+  ## NOTE:
+  ##   - Option UPNP might introduce delays during node startup, especially on networks where no UPnP gateway device can be found.
+  ##   - --nat-method cannot be used with the Besu Docker image.
+  natMethod: "NONE"
+
+  ## Predefined network configuration. The default is mainnet.
+  ##
+  ## Possible values are:
+  ##   - mainnet: Main Ethereum network
+  ##   - ropsten: PoW test network similar to current main Ethereum network
+  ##   - rinkeby: PoA test network using Clique
+  ##   - goerli: PoA test network using Clique
+  ##   - dev: PoW development network with a very low difficulty to enable local CPU mining
+  ##
+  ## NOTE: Values are case insensitive, so either mainnet or MAINNET works.
+  ##
+  ## IMPORTANT: The --network and --genesis-file option cannot be used at the same time.
+  ##
+  network: "MAINNET"
+
+  ## Enables or disables all p2p communication. The default is true.
+  ##
+  p2pEnabled: true
+
+  ## Specifies the host on which P2P listens. The default is 127.0.0.1.
+  ##
+  p2pHost: "127.0.0.1"
+
+  ## Specifies the network interface on which the node listens for P2P communication.
+  ## Use the option to specify the required network interface when the device that Besu is running on has multiple network interfaces. The default is 0.0.0.0 (all interfaces).
+  ##
+  p2pInterface: "0.0.0.0"
+
+  ## Specifies the P2P listening ports (UDP and TCP). The default is 30303. Ports must be exposed appropriately.
+  p2pPort: 30303
+
+  ## Sets the logging verbosity. Log levels are OFF, FATAL, ERROR, WARN, INFO, DEBUG, TRACE, ALL. Default is INFO.
+  ##
+  logging: "INFO"
+
+  ## Specifies the synchronization mode. Default is FULL.
+  ##
+  syncMode: "FULL"
+
+  ## Specify to limit the percentage of remote P2P connections initiated by peers. Default is true.
+  ##
+  ## TIP: In private networks with a level of trust between peers, disabling the remote connection limits may increase the speed at which nodes can join the network.
+  ##
+  ## IMPORTANT: To prevent eclipse attacks, ensure the remote connections limit is enabled when connecting to any public network and especially when using fast sync.
+  ##
+  remoteConnectionsLimitEnabled: true
+
+  ## Percentage of remote P2P connections that can be established with the node. Must be between 0 and 100 inclusive. Default is 60.
+  ##
+  remoteConnectionsMaxPercentage: 60
+
+  ## Comma-separated APIs to enable on the HTTP JSON-RPC channel. When you use this option, the --rpc-http-enabled option must also be specified.
+  ## The available API options are: ADMIN, ETH, NET, WEB3, CLIQUE, IBFT, PERM, DEBUG, MINER, EEA, PRIV, and TXPOOL. The default is: ETH, NET, WEB3.
+  ##
+  rpcHttpApi:
+    - ETH
+    - NET
+    - WEB3
+
+  ## Specifies domain URLs for CORS validation. Domain URLs must be enclosed in double quotes and comma-separated.
+  ## Listed domains can access the node using JSON-RPC. If your client interacts with Besu using a browser app (such as Remix or a block explorer), you must whitelist the client domains.
+  ## The default value is "none". If you don’t whitelist any domains, browser apps cannot interact with your Besu node.
+  ##
+  rpcHttpCorsOrigins: ["NONE"]
+
+  ## Set to true to enable the HTTP JSON-RPC service. The default is false.
+  ##
+  rpcHttpEnabled: true
+
+  ## Specifies the host on which HTTP JSON-RPC listens.
+  ## To allow remote connections, set to 0.0.0.0
+  ##
+  rpcHttpHost: "0.0.0.0"
+
+  ## Specifies HTTP JSON-RPC listening port (TCP). The default is 8545. Ports must be exposed appropriately.
+  ##
+  rpcHttpPort: 8545
+
+  ## Set to true to enable the WebSockets JSON-RPC service. The default is false.
+  ##
+  rpcWsEnabled: false
+
+  ## Host for Websocket WS-RPC to listen on.
+  ## To allow remote connections, set to 0.0.0.0
+  ##
+  rpcWsHost: "0.0.0.0"
+
+  ## Specifies Websockets JSON-RPC listening port (TCP). The default is 8546. Ports must be exposed appropriately.
+  ##
+  rpcWsPort: 8546
