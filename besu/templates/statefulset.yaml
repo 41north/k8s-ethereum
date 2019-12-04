@@ -67,13 +67,13 @@ spec:
         - name: data
           {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "besu.fullname" . }}-config{{- end }}
+            claimName: {{ if .Values.persistence.existingClaim }}{{ .Values.persistence.existingClaim }}{{- else }}{{ template "besu.fullname" . }}-data{{- end }}
           {{- else }}
           emptyDir: {}
           {{- end }}
         - name: config
           configMap:
-            name: {{ template "besu.fullname" . }}
+            name: {{ template "besu.fullname" . }}-config
       {{- with .Values.nodeSelector }}
       nodeSelector: {{- toYaml . | nindent 8 }}
       {{- end }}

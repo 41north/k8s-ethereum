@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "besu.fullname" . }}
+  name: {{ template "besu.fullname" . }}-config
   labels: {{ include "besu.labels" . | nindent 4 }}
 data:
   config.toml: |
