@@ -3,9 +3,9 @@ entries:
   aleth-lite-explorer:
   - apiVersion: v2
     appVersion: v1.0.0-beta.8
-    created: "2019-12-04T14:07:32.999339142+01:00"
+    created: "2019-12-04T15:22:05.767281831+01:00"
     description: Alethio's Light Weight Open Source Ethereum Explorer
-    digest: e4c8c036c1d7299553a6a2483af71bb088b8e8da74e8ad59080016e10728be73
+    digest: 0aa1611be911ec8308361c8195251adfd024448a36a851cc44bf46f42370a499
     name: aleth-lite-explorer
     type: application
     urls:
@@ -14,7 +14,7 @@ entries:
   besu:
   - apiVersion: v2
     appVersion: 1.3.5
-    created: "2019-12-04T14:07:32.999883934+01:00"
+    created: "2019-12-04T15:22:05.767830548+01:00"
     description: An enterprise-grade Java-based, Apache 2.0 licensed Ethereum client
     digest: 16f75f423687622666ae774771ef8913396da6caca690a9b1f48018c83cd407f
     name: besu
@@ -25,7 +25,7 @@ entries:
   ethstats:
   - apiVersion: v2
     appVersion: v1.5.2
-    created: "2019-12-04T14:07:33.003659399+01:00"
+    created: "2019-12-04T15:22:05.771503411+01:00"
     dependencies:
     - condition: redis.enabled
       name: redis
@@ -53,4 +53,4 @@ entries:
     urls:
     - ethstats-network-server-0.1.0.tgz
     version: 0.1.0
-generated: "2019-12-04T14:07:32.998918395+01:00"
+generated: "2019-12-04T15:22:05.766865529+01:00"
