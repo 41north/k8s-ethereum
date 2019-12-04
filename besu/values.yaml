@@ -48,6 +48,10 @@ service:
   ##
   type: ClusterIP
 
+  # Default port to use for the service in case Ingress is enabled
+  #
+  port: 80
+
   ## If service type = "NodePort" and RPC HTTP is enabled, use this port
   ##
   rpcHttpNodePort: 30545
